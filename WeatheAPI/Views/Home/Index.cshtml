@@ -1,0 +1,78 @@
+﻿@section scripts{
+    <script>
+        var weather = (function () {
+            var button = document.getElementById("show-weather");
+            button.addEventListener("click", function () {
+                getLocation();
+            }, false);
+
+            function Position(lat, long) {
+                this.lat = lat;
+                this.long = long;
+            }
+            var position;
+
+            var getLocation = function getLocation() {
+                var position;
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(evalPosition);
+                }
+                else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            }
+
+            var evalPosition = function evalPosition(pos) {
+                position = new Position(pos.coords.latitude, pos.coords.longitude);
+                getWeather();
+            }
+
+            var getWeather = function getWeather() {
+                var today = new Date();
+                var dateAsText = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+                var url = "http://api.worldweatheronline.com/free/v1/weather.ashx";
+
+
+                $.getJSON("Home/GetWeather",{
+                        latitude: position.lat,
+                        longitude: position.long
+                    }, showWeather
+                    );
+            }
+
+            var showWeather = function showWeather(data) {
+                var weatherData = JSON.parse(data).data.weather[0];
+                var minTemp = weatherData.tempMinC;
+                var maxTemp = weatherData.tempMaxC;
+                var pictureSource = weatherData.weatherIconUrl[0].value;
+                var dateValue = weatherData.date;
+                
+                var picture = document.getElementById("picture");
+                var min = document.getElementById("min");
+                var max = document.getElementById("max");
+                var date = document.getElementById("date");
+                var weatherContainer = document.getElementById("weather-container");
+                min.innerHTML = minTemp;
+                max.innerHTML = maxTemp;
+                date.innerHTML = dateValue;
+                picture.src = pictureSource;
+                weatherContainer.style.display = "block";
+            }
+        })();
+    </script>
+}
+
+<div id="weather">
+    <button id="show-weather">Show Weather</button>
+    <div id="weather-container">
+        <ul>
+            <li>
+                <img id="picture" src="#" alt="weather picture" width="64" height="64" />
+            </li>
+            <li>Min: <span id="min">NA</span></li>
+            <li>Max: <span id="max">NA</span></li>
+            <li><span id="date">NA</span></li>
+        </ul>
+    </div>
+</div>
+

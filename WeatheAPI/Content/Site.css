@@ -1,0 +1,51 @@
+﻿html, body, div, p, ul, li {
+    padding:0;
+    margin:0;
+}
+
+html {
+    font-size: 10px;
+    text-align: center;
+    font-family:Arial sans-serif;
+}
+
+#weather {
+    width:480px;
+    text-align:center;
+}
+
+#show-weather {
+    width:250px;
+    line-height:80px;
+    font-size:3rem;
+    background:#66DDEE;
+    border:2px solid #ff6a00;
+    cursor: pointer;
+}
+
+#show-weather:hover {
+    background:#66CCEE;
+}
+
+#weather-container {
+    margin-top:20px;
+    display: none;
+}
+
+#weather-container li {
+    margin-top:10px;
+    font-size: 2.8rem;
+}
+
+    #weather-container li span {
+        display:inline-block;
+        margin-left:5px;
+        font-size:5rem;
+        color:red;
+    }
+
+@media only screen and (max-width: 480px) {
+    #weather {
+        width:98%;
+    }
+}
